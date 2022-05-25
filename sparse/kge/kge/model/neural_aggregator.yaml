@@ -1,0 +1,27 @@
+import: [empty_embedder]
+
+neural_aggregator:
+  logic_input:
+    # searched in the dataset folder
+    folder: ""
+  embedding_dim: 40
+  scoring_type: shallow_sum
+  dropout: 0.15
+  max_num_rules: 100
+  # in {equal, top_one, ""} or use standard libKGE options
+  # equal: initialize all embeddings with 1
+  # top_one: set first coordindate to 1 others to 0
+  # "": use pytorch default
+  initialize: ""
+  initialize_args:
+    +++: +++
+  # use kge test . --neural_aggregator.run_test True for testing the final model
+  run_test: False
+
+  class_name: NeuralAggregator
+  entity_embedder:
+    type: empty_embedder
+    +++: +++
+  relation_embedder:
+    type: empty_embedder
+    +++: +++

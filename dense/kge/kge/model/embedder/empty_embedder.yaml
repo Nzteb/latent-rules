@@ -1,0 +1,4 @@
+empty_embedder:
+  class_name: EmptyEmbedder
+  dim: 0
+

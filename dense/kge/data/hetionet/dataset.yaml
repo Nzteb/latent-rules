@@ -1,0 +1,24 @@
+dataset:
+  files.entity_ids.filename: entity_ids.del
+  files.entity_ids.type: map
+  files.relation_ids.filename: relation_ids.del
+  files.relation_ids.type: map
+  files.test.filename: test.del
+  files.test.size: 151
+  files.test.split_type: test
+  files.test.type: triples
+  files.train.filename: train_target.del
+  files.train.size: 2249925
+  files.train.split_type: train
+  files.train.type: triples
+  files.train_target.filename: train_target.del
+  files.train_target.size: 483
+  files.train_target.split_type: train
+  files.train_target.type: triples
+  files.valid.filename: valid.del
+  files.valid.size: 121
+  files.valid.split_type: valid
+  files.valid.type: triples
+  name: hetionet
+  num_entities: 45159
+  num_relations: 24

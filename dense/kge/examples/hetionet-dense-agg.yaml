@@ -1,0 +1,47 @@
+NeuralAggregation:
+  class_name: TrainingNeuralAggregation
+  max_neg_candidates: 100
+dataset:
+  name: hetionet
+entity_ranking:
+  metrics_per:
+    head_and_tail: true
+model: neural_aggregator
+neural_aggregator:
+  attend_only_backward: true
+  class_name: NeuralAggregator
+  embedding_dim: 20
+  encoder:
+    activation: relu
+    dim_feedforward: 256
+    dropout: 0.15
+    max_num_rules: 50
+    nhead: 4
+    num_layers: 4
+  entity_embedder:
+    +++: +++
+    type: empty_embedder
+  logic_input:
+    folder: rule-outputs-cp10/explanations-processed
+  positional: false
+  scoring_type: pool
+train:
+  batch_size: 256
+  checkpoint:
+    every: 5
+    keep: 3
+    keep_init: true
+  loss: kl
+  lr_scheduler: ReduceLROnPlateau
+  max_epochs: 50
+  optimizer.default:
+    args:
+      lr: 0.01
+    type: Adagrad
+  type: NeuralAggregation
+valid:
+  every: 1
+  early_stopping:
+    patience: 5
+
+

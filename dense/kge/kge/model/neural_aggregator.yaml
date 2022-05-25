@@ -1,0 +1,28 @@
+import: [empty_embedder]
+
+neural_aggregator:
+  logic_input:
+    # searched in the dataset folder
+    folder: ""
+  embedding_dim: 100
+  #{"cls", "pool", "no_transform", "noisy_or"}
+  scoring_type: cls
+  positional: False
+  attend_only_backward: False
+  encoder:
+    # max token input length
+    max_num_rules: 100
+    nhead: 2
+    dim_feedforward: 1280
+    num_layers: 3
+    activation: relu
+    dropout: 0.15
+  class_name: NeuralAggregator
+  entity_embedder:
+    type: empty_embedder
+    +++: +++
+  relation_embedder:
+    type: empty_embedder
+    +++: +++
+  # use kge test . --neural_aggregator.run_test True for testing the final model
+  run_test: False

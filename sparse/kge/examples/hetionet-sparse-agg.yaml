@@ -1,0 +1,31 @@
+job.type: train
+dataset.name: hetionet
+
+valid.every: 1
+
+train:
+  num_workers: 0
+  max_epochs: 50
+  type: NeuralAggregation
+  optimizer.default:
+    type: Adagrad
+    args:
+      lr: 0.9
+  loss: diff_rank
+
+diff_rank:
+  use_noise: False
+
+NeuralAggregation:
+  max_neg_candidates: 100
+
+model: neural_aggregator
+neural_aggregator:
+  logic_input:
+    folder: rule-outputs-rules-cp5/explanations-processed
+  embedding_dim: 10
+  scoring_type: shallow_noisy
+  dropout: 0.15
+entity_ranking:
+  metrics_per:
+    head_and_tail: True

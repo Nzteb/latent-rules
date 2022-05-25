@@ -1,0 +1,204 @@
+1vsAll:
+  class_name: TrainingJob1vsAll
+KvsAll:
+  class_name: TrainingJobKvsAll
+  label_smoothing: 0.0
+  query_types:
+    _po: true
+    s_o: false
+    sp_: true
+NeuralAggregation:
+  class_name: TrainingNeuralAggregation
+  max_neg_candidates: 100
+ax_search:
+  class_name: AxSearchJob
+  num_sobol_trials: -1
+  num_trials: 10
+  parameter_constraints: []
+  parameters: []
+  sobol_seed: 0
+console:
+  format: {}
+  quiet: false
+dataset:
+  +++: +++
+  files:
+    +++: +++
+    entity_ids:
+      filename: entity_ids.del
+      type: map
+    entity_strings:
+      filename: entity_ids.del
+      type: map
+    relation_ids:
+      filename: relation_ids.del
+      type: map
+    relation_strings:
+      filename: relation_ids.del
+      type: map
+    test:
+      filename: test.del
+      type: triples
+    train:
+      filename: train.del
+      type: triples
+    valid:
+      filename: valid.del
+      type: triples
+  name: hetionet
+  num_entities: -1
+  num_relations: -1
+  pickle: true
+diff_rank:
+  k: 5
+  lambda: 5
+  scale_gradient: false
+  tau: 0.01
+  use_noise: false
+empty_embedder:
+  class_name: EmptyEmbedder
+  dim: 0
+entity_ranking:
+  chunk_size: -1
+  class_name: EntityRankingJob
+  filter_splits:
+  - train
+  - valid
+  filter_with_test: true
+  hits_at_k_s:
+  - 1
+  - 3
+  - 10
+  - 50
+  - 100
+  - 200
+  - 300
+  - 400
+  - 500
+  - 1000
+  metrics_per:
+    argument_frequency: false
+    head_and_tail: true
+    relation_type: false
+  tie_handling: rounded_mean_rank
+eval:
+  batch_size: 100
+  num_workers: 0
+  pin_memory: false
+  split: valid
+  trace_level: epoch
+  type: entity_ranking
+grid_search:
+  class_name: GridSearchJob
+  parameters:
+    +++: +++
+  run: true
+import:
+- neural_aggregator
+job:
+  device: cpu
+  type: train
+manual_search:
+  class_name: ManualSearchJob
+  configurations: []
+  run: true
+model: neural_aggregator
+modules:
+- kge.job
+- kge.model
+- kge.model.embedder
+negative_sampling:
+  class_name: TrainingJobNegativeSampling
+  filtering:
+    implementation: fast_if_available
+    o: false
+    p: false
+    s: false
+    split: ''
+  frequency:
+    smoothing: 1
+  implementation: auto
+  num_samples:
+    o: -1
+    p: 0
+    s: 3
+  sampling_type: uniform
+  shared: false
+  shared_type: default
+  with_replacement: true
+neural_aggregator:
+  class_name: NeuralAggregator
+  dropout: 0.15
+  embedding_dim: 10
+  entity_embedder:
+    +++: +++
+    type: empty_embedder
+  initialize: ''
+  initialize_args:
+    +++: +++
+  logic_input:
+    folder: rule-outputs-rules-cp5/explanations-processed
+  max_num_rules: 40
+  relation_embedder:
+    +++: +++
+    type: empty_embedder
+  scoring_type: shallow_noisy
+random_seed:
+  default: -1
+  numba: -1
+  numpy: -1
+  python: -1
+  torch: -1
+search:
+  device_pool: []
+  num_workers: 1
+  on_error: abort
+  type: ax_search
+train:
+  abort_on_nan: true
+  auto_correct: false
+  batch_size: 100
+  checkpoint:
+    every: 5
+    keep: 3
+    keep_init: true
+  loss: diff_rank
+  loss_arg: .nan
+  lr_scheduler: ReduceLROnPlateau
+  lr_scheduler_args:
+    +++: +++
+    mode: max
+    patience: 4
+  lr_warmup: 0
+  max_epochs: 50
+  num_workers: 0
+  optimizer:
+    +++: +++
+    default:
+      args:
+        +++: +++
+        lr: 0.9
+      type: Adagrad
+  pin_memory: false
+  split: train
+  subbatch_auto_tune: false
+  subbatch_size: -1
+  trace_level: epoch
+  type: NeuralAggregation
+  visualize_graph: false
+training_loss:
+  class_name: TrainingLossEvaluationJob
+user:
+  +++: +++
+valid:
+  early_stopping:
+    patience: 5
+    threshold:
+      epochs: 0
+      metric_value: 0.0
+  every: 1
+  metric: mean_reciprocal_rank_filtered_with_test
+  metric_expr: float("nan")
+  metric_max: true
+  split: valid
+  trace_level: epoch
