@@ -2,6 +2,8 @@
 
 Code for the paper [Supervised Knowledge Aggregation for Knowledge Graph Completion](https://web.informatik.uni-mannheim.de/AnyBURL/betz22aggregation.pdf) from ESWC22
 
+**Update: If you want to create the input feature data for the models you can now use the [PyClause](https://github.com/symbolic-kg/PyClause) library. The preprocessing takes minutes instead of hours. If you have questions, please open an issue.** 
+
 
 #### Using the Code
 The code is build upon the [libKGE](https://github.com/uma-pi1/kge/) library and the rule learner [AnyBURL](https://web.informatik.uni-mannheim.de/AnyBURL/).
